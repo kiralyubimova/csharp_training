@@ -11,22 +11,22 @@ namespace WebAddressbookTests
     {
         [Test]
         public void GroupCreationTest()
-        {
-            app.Navigator.GoToHomePage();
-            app.Auth.Login(new AccountData("admin", "secret"));
-            app.Navigator.GoToGroupsPage();
-            app.Groups.InitGroupCreation();
-
-            // Initializing object group
+        {            
             GroupData group = new GroupData("Group Name");
             group.Header = "Group Header";
             group.Footer = "Group Footer";
 
-            // Calling method with initialised object as parameter
-            app.Groups.FillGroupForm(group);
+            app.Groups.Create(group);
+        }
 
-            app.Groups.SubmitGroupCreation();
-            app.Groups.ReturnToGroupsPage();
-        }        
+        [Test]
+        public void EmptyGroupCreationTest()
+        {
+            GroupData group = new GroupData("");
+            group.Header = "";
+            group.Footer = "";
+
+            app.Groups.Create(group);
+        }
     }
 }
