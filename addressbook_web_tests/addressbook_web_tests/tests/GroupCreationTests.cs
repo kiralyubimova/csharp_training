@@ -12,10 +12,10 @@ namespace WebAddressbookTests
         [Test]
         public void GroupCreationTest()
         {
-            GoToHomePage();
-            Login(new AccountData("admin", "secret"));
-            GoToGroupsPage();
-            InitGroupCreation();
+            app.Navigator.GoToHomePage();
+            app.Auth.Login(new AccountData("admin", "secret"));
+            app.Navigator.GoToGroupsPage();
+            app.Groups.InitGroupCreation();
 
             // Initializing object group
             GroupData group = new GroupData("Group Name");
@@ -23,10 +23,10 @@ namespace WebAddressbookTests
             group.Footer = "Group Footer";
 
             // Calling method with initialised object as parameter
-            FillGroupForm(group);
+            app.Groups.FillGroupForm(group);
 
-            SubmitGroupCreation();
-            ReturnToGroupsPage();
+            app.Groups.SubmitGroupCreation();
+            app.Groups.ReturnToGroupsPage();
         }        
     }
 }
