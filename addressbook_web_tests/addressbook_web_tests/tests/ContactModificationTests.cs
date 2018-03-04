@@ -16,8 +16,18 @@ namespace WebAddressbookTests
         {
             ContactData newContactData = new ContactData("Modified", "Modifiedsurname");
 
-            app.Contacts.Modify(6, newContactData);
+            app.Contacts.Modify(14, newContactData);
             app.Auth.LogOut();
         }
+
+        [Test]
+        public void RandomContactModificationTest()
+        {
+            ContactData newContactData = new ContactData("RandomModified", "RandomModifiedsurname");
+
+            app.Contacts.ModifyRandom(newContactData);
+            app.Auth.LogOut();
+        }
+
     }
 }

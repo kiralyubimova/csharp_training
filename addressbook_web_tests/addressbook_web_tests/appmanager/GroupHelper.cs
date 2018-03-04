@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using System.Collections.ObjectModel;
 
 namespace WebAddressbookTests
 {
@@ -37,6 +38,21 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public GroupHelper ModifyRandom(GroupData newData)
+        {
+            manager.Navigator.GoToGroupsPage();
+            if (!IsElementPresent(By.Name("selected[]")))
+            {
+                Create(new GroupData("New Group Random"));
+            }
+            SelectGroupRandom();
+            InitGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
+            return this;
+        }
+
         public GroupHelper Remove(int index)
         {
             manager.Navigator.GoToGroupsPage();
@@ -45,7 +61,20 @@ namespace WebAddressbookTests
             ReturnToGroupsPage();
             return this;
         }
-        
+
+        public GroupHelper RemoveRandom()
+        {
+            manager.Navigator.GoToGroupsPage();
+            if (!IsElementPresent(By.Name("selected[]")))
+            {
+                Create(new GroupData("New Group Random"));
+            }
+            SelectGroupRandom();
+            RemoveGroup();
+            ReturnToGroupsPage();
+            return this;
+        }
+
         public GroupHelper InitGroupCreation()
         {
             driver.FindElement(By.Name("new")).Click();
@@ -69,6 +98,17 @@ namespace WebAddressbookTests
         public GroupHelper SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            return this;
+        }
+
+        public GroupHelper SelectGroupRandom()
+        {
+            ReadOnlyCollection<IWebElement> elements = driver.FindElements(By.Name("selected[]"));
+
+            Random rnd = new Random();
+            int int_index = rnd.Next(0, elements.Count);
+            IWebElement random_element = elements[int_index];
+            random_element.Click();           
             return this;
         }
 

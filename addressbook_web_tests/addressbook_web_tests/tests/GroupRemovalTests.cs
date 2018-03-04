@@ -14,5 +14,12 @@ namespace WebAddressbookTests
         {
             app.Groups.Remove(1);
         }
+
+        [Test]
+        public void RandomGroupRemovalTest()
+        {
+            app.Groups.RemoveRandom();
+        }
+
     }
 }

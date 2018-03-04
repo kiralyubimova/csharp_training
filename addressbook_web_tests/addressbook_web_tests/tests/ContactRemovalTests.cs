@@ -14,7 +14,13 @@ namespace WebAddressbookTests
         [Test]
         public void ContactRemovalTest()
         {
-            app.Contacts.Remove("3");
+            app.Contacts.Remove("14");
+        }
+
+        [Test]
+        public void RandomContactRemovalTest()
+        {
+            app.Contacts.RemoveRandom();
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using System.Collections.ObjectModel;
 
 namespace WebAddressbookTests
 {
@@ -32,9 +33,39 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public ContactHelper ModifyRandom(ContactData newContactData)
+        {
+            if (!IsElementPresent(By.Name("selected[]")))
+            {
+                Create(new ContactData("Dave", "Black"));
+                manager.Navigator.GoToHomePage();
+            }
+            EditRandomContact();
+            FillContactForm(newContactData);
+            SubmitForm();
+            return this;
+        }
+
+
         public ContactHelper Remove(string index)
         {
+            if (! IsElementPresent(By.Name("selected[]")))
+            {
+                Create(new ContactData("Dave", "Black"));
+            }
             SelectContact(index);
+            RemoveContact();
+            return this;
+        }
+
+        public ContactHelper RemoveRandom()
+        {
+            if (!IsElementPresent(By.Name("selected[]")))
+            {
+                Create(new ContactData("Dave", "Black"));
+                manager.Navigator.GoToHomePage();
+            }
+            SelectRandomContact();
             RemoveContact();
             return this;
         }
@@ -65,9 +96,31 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public ContactHelper SelectRandomContact()
+        {
+            ReadOnlyCollection<IWebElement> elements = driver.FindElements(By.Name("selected[]"));
+
+            Random rnd = new Random();
+            int int_index = rnd.Next(0, elements.Count);
+            IWebElement random_element = elements[int_index];
+            random_element.Click();
+            return this;
+        }
+
         public ContactHelper EditContact(int index)
         {
             driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + index + "]")).Click();
+            return this;
+        }
+
+        public ContactHelper EditRandomContact()
+        {
+            ReadOnlyCollection<IWebElement> elements = driver.FindElements(By.Name("selected[]"));
+
+            Random rnd = new Random();
+            int int_index = rnd.Next(1, elements.Count+1);
+
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + int_index + "]")).Click();
             return this;
         }
 

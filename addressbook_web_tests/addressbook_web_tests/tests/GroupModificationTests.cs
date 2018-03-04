@@ -20,5 +20,15 @@ namespace WebAddressbookTests
 
             app.Groups.Modify(1, newData);
         }
+
+        [Test]
+        public void RandomGroupModificationTest()
+        {
+            GroupData newData = new GroupData("New Group Name Random");
+            newData.Header = null;
+            newData.Footer = null;
+
+            app.Groups.ModifyRandom(newData);
+        }
     }
 }
