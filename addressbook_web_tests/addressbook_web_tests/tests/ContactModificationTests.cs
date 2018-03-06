@@ -24,7 +24,7 @@ namespace WebAddressbookTests
         public void RandomContactModificationTest()
         {
             ContactData newContactData = new ContactData("RandomModified", "RandomModifiedsurname");
-
+            app.Contacts.CheckContactExistance();
             app.Contacts.ModifyRandom(newContactData);
             app.Auth.LogOut();
         }

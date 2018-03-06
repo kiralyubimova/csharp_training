@@ -20,6 +20,7 @@ namespace WebAddressbookTests
         [Test]
         public void RandomContactRemovalTest()
         {
+            app.Contacts.CheckContactExistance();
             app.Contacts.RemoveRandom();
         }
     }

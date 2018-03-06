@@ -18,6 +18,7 @@ namespace WebAddressbookTests
         [Test]
         public void RandomGroupRemovalTest()
         {
+            app.Groups.CheckGroupExistance();
             app.Groups.RemoveRandom();
         }
 

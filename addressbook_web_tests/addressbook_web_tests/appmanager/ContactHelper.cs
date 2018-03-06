@@ -33,13 +33,18 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper ModifyRandom(ContactData newContactData)
+        public ContactHelper CheckContactExistance()
         {
             if (!IsElementPresent(By.Name("selected[]")))
             {
                 Create(new ContactData("Dave", "Black"));
                 manager.Navigator.GoToHomePage();
             }
+            return this;
+        }
+
+        public ContactHelper ModifyRandom(ContactData newContactData)
+        {
             EditRandomContact();
             FillContactForm(newContactData);
             SubmitForm();
@@ -49,10 +54,6 @@ namespace WebAddressbookTests
 
         public ContactHelper Remove(string index)
         {
-            if (! IsElementPresent(By.Name("selected[]")))
-            {
-                Create(new ContactData("Dave", "Black"));
-            }
             SelectContact(index);
             RemoveContact();
             return this;

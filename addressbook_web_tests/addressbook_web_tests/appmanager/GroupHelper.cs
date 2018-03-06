@@ -41,15 +41,20 @@ namespace WebAddressbookTests
         public GroupHelper ModifyRandom(GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
-            if (!IsElementPresent(By.Name("selected[]")))
-            {
-                Create(new GroupData("New Group Random"));
-            }
             SelectGroupRandom();
             InitGroupModification();
             FillGroupForm(newData);
             SubmitGroupModification();
             ReturnToGroupsPage();
+            return this;
+        }
+
+        public GroupHelper CheckGroupExistance()
+        {
+            if (!IsElementPresent(By.Name("selected[]")))
+            {
+                Create(new GroupData("New Group Random"));
+            }
             return this;
         }
 
@@ -65,10 +70,6 @@ namespace WebAddressbookTests
         public GroupHelper RemoveRandom()
         {
             manager.Navigator.GoToGroupsPage();
-            if (!IsElementPresent(By.Name("selected[]")))
-            {
-                Create(new GroupData("New Group Random"));
-            }
             SelectGroupRandom();
             RemoveGroup();
             ReturnToGroupsPage();

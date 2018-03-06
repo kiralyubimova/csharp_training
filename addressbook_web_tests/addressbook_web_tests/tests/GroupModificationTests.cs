@@ -28,6 +28,7 @@ namespace WebAddressbookTests
             newData.Header = null;
             newData.Footer = null;
 
+            app.Groups.CheckGroupExistance();
             app.Groups.ModifyRandom(newData);
         }
     }
