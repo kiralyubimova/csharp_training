@@ -15,8 +15,15 @@ namespace WebAddressbookTests
         public void ContactModificationTest()
         {
             ContactData newContactData = new ContactData("Modified", "Modifiedsurname");
-
-            app.Contacts.Modify(14, newContactData);
+            app.Contacts.CheckContactExistance();
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            app.Contacts.Modify(0, newContactData);
+            List<ContactData> newContacts = app.Contacts.GetContactList();
+            oldContacts[0].Name = newContactData.Name;
+            oldContacts[0].Surname = newContactData.Surname;
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
             app.Auth.LogOut();
         }
 

@@ -17,6 +17,26 @@ namespace WebAddressbookTests
         {
         }
 
+        public List<ContactData> GetContactList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            manager.Navigator.GoToHomePage();
+            ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
+            foreach (IWebElement element in elements)
+            {
+                ICollection<IWebElement> columns = element.FindElements(By.CssSelector("td"));
+                string surname = columns.ElementAt(1).Text;
+                string name = columns.ElementAt(2).Text;
+                string id = columns.ElementAt(0).FindElement(By.Name("selected[]")).GetAttribute("id");
+
+                ContactData contactData = new ContactData(name, surname);
+                contactData.Id = id;
+
+                contacts.Add(contactData);
+            }
+            return contacts;
+        }
+
         public ContactHelper Create(ContactData contact)
         {
             AddNewContact();
@@ -52,12 +72,13 @@ namespace WebAddressbookTests
         }
 
 
-        public ContactHelper Remove(string index)
+        public ContactHelper Remove(int index)
         {
             SelectContact(index);
             RemoveContact();
             return this;
         }
+
 
         public ContactHelper RemoveRandom()
         {
@@ -91,11 +112,14 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper SelectContact(string index)
+
+
+        public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.Id(index)).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
             return this;
         }
+
 
         public ContactHelper SelectRandomContact()
         {
