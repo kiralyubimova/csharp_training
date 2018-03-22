@@ -8,16 +8,10 @@ namespace WebAddressbookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        private string name;
-        private string surname;
         private string middlename = "";
         private string nickname = "";
         private string title = "";
         private string company = "";
-        private string address = "";
-        private string homephone = "";
-        private string mobilephone = "";
-        private string workphone = "";
         private string fax = "";
         private string email = "";
         private string email2 = "";
@@ -27,13 +21,14 @@ namespace WebAddressbookTests
         private string secondaryaddress = "";
         private string secondaryhome = "";
         private string notes = "";
+        private string allPhones;
         // service field
         private string id = "";
 
         public ContactData(string name, string surname)
         {
-            this.name = name;
-            this.surname = surname;
+            Name = name;
+            Surname = surname;
         }
 
         public bool Equals(ContactData other)
@@ -192,53 +187,41 @@ namespace WebAddressbookTests
             }
         }
 
-        public string Workphone
+        public string AllPhones
         {
             get
             {
-                return workphone;
+                if (allPhones != null)
+                {
+                    return allPhones;
+                }
+                else
+                {
+                    return (CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone)).Trim();
+                }
             }
             set
             {
-                workphone = value;
+                allPhones = value;
             }
         }
 
-        public string Mobilephone
+        private string CleanUp(string phone)
         {
-            get
+            if (phone == null || phone == "")
             {
-                return mobilephone;
+                return "";
             }
-            set
-            {
-                mobilephone = value;
-            }
+            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
         }
 
-        public string Homephone
-        {
-            get
-            {
-                return homephone;
-            }
-            set
-            {
-                homephone = value;
-            }
-        }
+        public string WorkPhone { get; set; }
 
-        public string Address
-        {
-            get
-            {
-                return address;
-            }
-            set
-            {
-                address = value;
-            }
-        }
+        public string MobilePhone { get; set; }
+
+        public string HomePhone { get; set; }
+
+        public string Address { get; set; }
 
         public string Company
         {
@@ -264,29 +247,9 @@ namespace WebAddressbookTests
             }
         }
 
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-            set
-            {
-                name = value;
-            }
-        }
+        public string Name { get; set; }
 
-        public string Surname
-        {
-            get
-            {
-                return surname;
-            }
-            set
-            {
-                surname = value;
-            }
-        }
+        public string Surname { get; set; }
 
         public string Middlename
         {
