@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace WebAddressbookTests
 {
@@ -24,6 +25,7 @@ namespace WebAddressbookTests
         private string allPhones;
         // service field
         private string id = "";
+        private string allEmails;
 
         public ContactData(string name, string surname)
         {
@@ -187,6 +189,25 @@ namespace WebAddressbookTests
             }
         }
 
+        public string AllEmails
+        {
+            get
+            {
+                if (allEmails != null)
+                {
+                    return allEmails;
+                }
+                else
+                {
+                    return (CleanUpEMail(Email) + CleanUpEMail(Email2) + CleanUpEMail(Email3)).Trim();
+                }
+            }
+            set
+            {
+                allEmails = value;
+            }
+        }
+
         public string AllPhones
         {
             get
@@ -212,7 +233,15 @@ namespace WebAddressbookTests
             {
                 return "";
             }
-            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+            return Regex.Replace(phone, @"[ \-()]", "") + "\r\n";
+        }
+        private string CleanUpEMail(string email)
+        {
+            if (email == null || email == "")
+            {
+                return "";
+            }
+            return email.Trim() + "\r\n";
         }
 
         public string WorkPhone { get; set; }

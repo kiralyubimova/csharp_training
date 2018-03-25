@@ -7,6 +7,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 
 namespace WebAddressbookTests
 {
@@ -25,12 +26,14 @@ namespace WebAddressbookTests
             string lastName = cells[1].Text;
             string firstName = cells[2].Text;
             string address = cells[3].Text;
+            string allEmails = cells[4].Text;
             string allPhones = cells[5].Text;
 
             return new ContactData(firstName, lastName)
             {
                 Address = address,
-                AllPhones = allPhones
+                AllPhones = allPhones,
+                AllEmails = allEmails
             };
         }
 
@@ -42,6 +45,10 @@ namespace WebAddressbookTests
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
 
+            string email = driver.FindElement(By.Name("email")).GetAttribute("value");
+            string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
+            string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
+
             string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
             string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
             string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
@@ -49,6 +56,9 @@ namespace WebAddressbookTests
             return new ContactData(firstName, lastName)
             {
                 Address = address,
+                Email = email,
+                Email2 = email2,
+                Email3 = email3,
                 HomePhone = homePhone,
                 WorkPhone = workPhone,
                 MobilePhone = mobilePhone
@@ -178,13 +188,13 @@ namespace WebAddressbookTests
 
         public ContactHelper EditContact(int index)
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + index + "]")).Click();
+            //driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + index + "]")).Click();
 
-            /*
+            
                 driver.FindElements(By.Name("entry"))[index]
                     .FindElements(By.TagName("td"))[7]
                     .FindElement(By.TagName("a")).Click();
-            */
+            
 
             return this;
         }
@@ -206,6 +216,14 @@ namespace WebAddressbookTests
             driver.SwitchTo().Alert().Accept();
             contactCache = null;
             return this;
+        }
+
+        public int GetNumberOfSearchResults()
+        {
+            manager.Navigator.GoToHomePage();
+            string text = driver.FindElement(By.TagName("label")).Text;
+            Match m = new Regex(@"\d+").Match(text);
+            return Int32.Parse(m.Value);
         }
     }
 }
