@@ -37,6 +37,15 @@ namespace WebAddressbookTests
             };
         }
 
+        public string GetContactInformationFromDetails(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            ViewDetails(index);
+            IWebElement el = driver.FindElement(By.CssSelector("#content"));
+            return el.Text.Trim();
+ 
+        }
+
         public ContactData GetContactInformationFromEditForm(int index)
         {
             manager.Navigator.GoToHomePage();
@@ -53,6 +62,10 @@ namespace WebAddressbookTests
             string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
             string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
 
+            //and all freacking crap
+            string nickname = driver.FindElement(By.Name("nickname")).GetAttribute("value");
+            string middleName = driver.FindElement(By.Name("middlename")).GetAttribute("value");
+
             return new ContactData(firstName, lastName)
             {
                 Address = address,
@@ -61,7 +74,9 @@ namespace WebAddressbookTests
                 Email3 = email3,
                 HomePhone = homePhone,
                 WorkPhone = workPhone,
-                MobilePhone = mobilePhone
+                MobilePhone = mobilePhone,
+                Nickname = nickname,
+                Middlename = middleName
             };
         }
 
@@ -188,14 +203,17 @@ namespace WebAddressbookTests
 
         public ContactHelper EditContact(int index)
         {
-            //driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + index + "]")).Click();
-
-            
-                driver.FindElements(By.Name("entry"))[index]
+             driver.FindElements(By.Name("entry"))[index]
                     .FindElements(By.TagName("td"))[7]
                     .FindElement(By.TagName("a")).Click();
-            
+            return this;
+        }
 
+        public ContactHelper ViewDetails(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+                   .FindElements(By.TagName("td"))[6]
+                   .FindElement(By.TagName("a")).Click();
             return this;
         }
 
