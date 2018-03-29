@@ -65,6 +65,12 @@ namespace WebAddressbookTests
             //and all freacking crap
             string nickname = driver.FindElement(By.Name("nickname")).GetAttribute("value");
             string middleName = driver.FindElement(By.Name("middlename")).GetAttribute("value");
+            string title = driver.FindElement(By.Name("title")).GetAttribute("value");
+            string company = driver.FindElement(By.Name("company")).GetAttribute("value");
+            string fax = driver.FindElement(By.Name("fax")).GetAttribute("value");
+            string homepage = driver.FindElement(By.Name("homepage")).GetAttribute("value");
+
+
 
             return new ContactData(firstName, lastName)
             {
@@ -76,7 +82,11 @@ namespace WebAddressbookTests
                 WorkPhone = workPhone,
                 MobilePhone = mobilePhone,
                 Nickname = nickname,
-                Middlename = middleName
+                Middlename = middleName,
+                Title = title,
+                Company = company,
+                Fax = fax,
+                Homepage = homepage
             };
         }
 

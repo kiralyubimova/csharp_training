@@ -26,8 +26,44 @@ namespace WebAddressbookTests
         {
             string fromDetails = app.Contacts.GetContactInformationFromDetails(0);
             ContactData fromForm = app.Contacts.GetContactInformationFromEditForm(0);
-            string stringFromForm = (strWithSpace(fromForm.Name) + strWithSpace(fromForm.Middlename) + fromForm.Surname).Trim() + "\r\n"
-                +(fromForm.Nickname).Trim()+"\r\n";
+
+            string personalBlock = strWithNewLine((strWithSpace(fromForm.Name) + strWithSpace(fromForm.Middlename) + fromForm.Surname).Trim()) +
+                strWithNewLine(fromForm.Nickname) +
+                strWithNewLine(fromForm.Title) +
+                strWithNewLine(fromForm.Company) +
+                strWithNewLine(fromForm.Address);
+            string phoneBlock = "";
+            if (fromForm.HomePhone != "")
+            {
+                phoneBlock = phoneBlock + "H: " + strWithNewLine(fromForm.HomePhone);
+            }
+            if (fromForm.MobilePhone != "")
+            {
+                phoneBlock = phoneBlock + "M: " + strWithNewLine(fromForm.MobilePhone);
+            }
+            if (fromForm.WorkPhone != "")
+            {
+                phoneBlock = phoneBlock + "W: " + strWithNewLine(fromForm.WorkPhone);
+            }
+
+            if (fromForm.Fax != "")
+            {
+                phoneBlock = phoneBlock + "F: " + strWithNewLine(fromForm.Fax);
+            }
+
+            string emailBlock = strWithNewLine(fromForm.Email) +
+                strWithNewLine(fromForm.Email2) +
+                strWithNewLine(fromForm.Email3);
+            if (fromForm.Homepage != "")
+            {
+                emailBlock = emailBlock + "Homepage:\r\n" + fromForm.Homepage;
+            }
+
+
+            string stringFromForm = (strWithNewLine(personalBlock) +
+                strWithNewLine(phoneBlock) + 
+                strWithNewLine(emailBlock)).Trim();
+
             fromDetails = fromDetails.Substring(0, stringFromForm.Length);
             Assert.AreEqual(fromDetails, stringFromForm);
         }
@@ -38,6 +74,14 @@ namespace WebAddressbookTests
                 return "";
             }
             return str.Trim() + " ";
+        }
+        private string strWithNewLine(string str)
+        {
+            if (str == "" || str == null)
+            {
+                return "";
+            }
+            return str + "\r\n";
         }
     }
 }
