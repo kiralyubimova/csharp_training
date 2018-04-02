@@ -96,7 +96,7 @@ namespace WebAddressbookTests
         {
             if (contactCache == null)
             {
-                List<ContactData> contacts = new List<ContactData>();
+                contactCache = new List<ContactData>();
                 manager.Navigator.GoToHomePage();
                 ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
                 foreach (IWebElement element in elements)
@@ -109,7 +109,7 @@ namespace WebAddressbookTests
                     ContactData contactData = new ContactData(name, surname);
                     contactData.Id = id;
 
-                    contacts.Add(contactData);
+                    contactCache.Add(contactData);
                 }
             }
             return new List<ContactData>(contactCache);
