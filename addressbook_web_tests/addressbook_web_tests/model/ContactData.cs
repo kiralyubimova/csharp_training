@@ -27,6 +27,11 @@ namespace WebAddressbookTests
         private string id = "";
         private string allEmails;
 
+        public ContactData()
+        {
+
+        }
+
         public ContactData(string name, string surname)
         {
             Name = name;
