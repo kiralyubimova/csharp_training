@@ -9,7 +9,7 @@ namespace WebAddressbookTests
 {
     [TestFixture]
 
-    public class GroupModificationTests : AuthTestBase
+    public class GroupModificationTests : GroupTestBase
     {
         [Test]
         public void GroupModificationTest()
@@ -18,16 +18,17 @@ namespace WebAddressbookTests
             newData.Header = null;
             newData.Footer = null;
             app.Groups.CheckGroupExistance();
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
+            oldGroups.Sort();
             GroupData oldData = oldGroups[0];
 
             app.Groups.Modify(0, newData);
 
-            Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
+            List<GroupData> newGroups = GroupData.GetAll();
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            Assert.AreEqual(oldGroups.Count, newGroups.Count);
+
             oldGroups[0].Name = newData.Name;
-            oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
             foreach(GroupData group in newGroups)
@@ -39,15 +40,5 @@ namespace WebAddressbookTests
             }
         }
 
-        [Test]
-        public void RandomGroupModificationTest()
-        {
-            GroupData newData = new GroupData("New Group Name Random");
-            newData.Header = null;
-            newData.Footer = null;
-
-            app.Groups.CheckGroupExistance();
-            app.Groups.ModifyRandom(newData);
-        }
     }
 }

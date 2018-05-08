@@ -9,19 +9,19 @@ namespace WebAddressbookTests
 {
     [TestFixture]
 
-    class ContactRemovalTests : AuthTestBase
+    class ContactRemovalTests : ContactTestBase
     {
         [Test]
         public void ContactRemovalTest()
         {
             app.Contacts.CheckContactExistance();
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
+            oldContacts.Sort();
 
             app.Contacts.Remove(0);
             oldContacts.RemoveAt(0);
             
-            List<ContactData> newContacts = app.Contacts.GetContactList();
-            oldContacts.Sort();
+            List<ContactData> newContacts = ContactData.GetAll();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
         }
